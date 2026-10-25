@@ -97,14 +97,17 @@ class SandboxManager(Protocol):
 
 
 def forklib_files() -> dict[str, bytes]:
-    """The trusted library that goes into the base checkpoint, keyed by work path."""
+    """Trusted code baked into the base checkpoint, keyed by work path: forklib and the
+    packs (template models are the fallback and Ultra may reuse packs.common)."""
     files = {}
-    for p in sorted((REPO_ROOT / "forklib").rglob("*.py")):
-        if "__pycache__" in p.parts or p.name.startswith("test_"):
-            continue
-        files[str(PurePosixPath("forklib") / p.relative_to(REPO_ROOT / "forklib").as_posix())] = (
-            p.read_bytes()
-        )
+    for pkg, patterns in (("forklib", ("*.py",)), ("packs", ("*.py", "*.json"))):
+        for pattern in patterns:
+            for p in sorted((REPO_ROOT / pkg).rglob(pattern)):
+                if "__pycache__" in p.parts or p.name.startswith("test_"):
+                    continue
+                files[str(PurePosixPath(pkg) / p.relative_to(REPO_ROOT / pkg).as_posix())] = (
+                    p.read_bytes()
+                )
     runtime = REPO_ROOT / "sandbox_runtime"
     for name in ("setup_base.sh", "run_shard.py"):
         if (runtime / name).exists():
