@@ -121,12 +121,25 @@ def test_old_regime_and_years():
     assert income_tax(1_300_000, "new", "2025-26") == income_tax(1_300_000, "new", "2026-27")
     with pytest.raises(ValueError):
         income_tax(1_000_000, "new", "2019-20")
-    with pytest.raises(ValueError):
-        income_tax(6_000_000, "new", "2026-27")
+
+
+@pytest.mark.parametrize(
+    ("taxable", "expected"),
+    [
+        # 60L: 3,00,000 + 30% of 36L = 13,80,000; +10% surcharge = 15,18,000; x 1.04
+        (6_000_000, 1_578_720),
+        # 50.1L: 10,83,000 + 10% = 11,91,300, but relief caps it at
+        # tax at 50L (10,80,000) + 10,000 over = 10,90,000; x 1.04
+        (5_010_000, 1_133_600),
+        (5_000_000, 1_123_200),  # exactly at the threshold: no surcharge
+    ],
+)
+def test_surcharge_and_marginal_relief(taxable, expected):
+    assert income_tax(taxable, "new", "2026-27") == expected
 
 
 def test_tax_is_monotonic_in_income():
-    incomes = np.arange(0, 3_000_000, 1_000)
+    incomes = np.arange(0, 30_000_000, 1_000)
     tax = income_tax(incomes, "new", "2026-27")
     assert np.all(np.diff(tax) >= 0)
     # and never takes more than the extra income just above the rebate limit

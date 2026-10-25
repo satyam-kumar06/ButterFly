@@ -11,9 +11,11 @@ Method (matches docs/demo-payroll.md, the team's hand-worked oracle):
     + 4% health and education cess
     final tax rounded to the nearest Rs 10 (s.288B)
 
-Out of scope (raise or document, never silently approximate): surcharge (income
-above Rs 50 lakh), special-rate income, HRA and other old-regime exemptions beyond
-the standard deduction, senior-citizen slabs.
+Surcharge applies above Rs 50 lakh (10%), Rs 1 crore (15%), Rs 2 crore (25%; the
+old regime adds 37% above Rs 5 crore), with marginal relief at each threshold.
+
+Out of scope (documented, never silently approximated): special-rate income, HRA
+and other old-regime exemptions beyond the standard deduction, senior-citizen slabs.
 
 Example:
     >>> int(income_tax(1_590_000 - 75_000))      # Nimbus at 100% variable
@@ -47,6 +49,7 @@ _OLD_SLABS = [
 
 _NEW = {
     "slabs": _NEW_SLABS,
+    "surcharge": [(5_000_000, 0.10), (10_000_000, 0.15), (20_000_000, 0.25)],
     "standard_deduction": 75_000,
     "rebate_limit": 1_200_000,
     "rebate_max": 60_000,
@@ -55,6 +58,7 @@ _NEW = {
 }
 _OLD = {
     "slabs": _OLD_SLABS,
+    "surcharge": [(5_000_000, 0.10), (10_000_000, 0.15), (20_000_000, 0.25), (50_000_000, 0.37)],
     "standard_deduction": 50_000,
     "rebate_limit": 500_000,
     "rebate_max": 12_500,
@@ -71,8 +75,6 @@ RULES = {
     ("2026-27", "old"): _OLD,
 }
 
-SURCHARGE_THRESHOLD = 5_000_000
-
 RULE_SOURCE = {
     "rule": "Income tax on salary, resident individual below 60",
     "financial_years": ["2025-26", "2026-27"],
@@ -80,6 +82,8 @@ RULE_SOURCE = {
         "https://www.incometaxindia.gov.in/w/computation-of-tax-for-individual-1",
         "https://www.incometaxindia.gov.in/w/deductions-allowable-to-tax-payer",
     ],
+    "surcharge": "10% above Rs 50L, 15% above Rs 1Cr, 25% above Rs 2Cr (new regime capped "
+    "at 25% since Finance Act 2023; old regime 37% above Rs 5Cr), with marginal relief.",
     "notes": "Budget 2026 left slabs, Rs 75,000 standard deduction and the Rs 12 lakh "
     "87A limit unchanged for FY 2026-27 (checked 2026-10-25). Rounding per s.288A/288B.",
     "checked": "2026-10-25",
@@ -125,13 +129,27 @@ def tax_before_cess(taxable, regime: str = "new", fy: str = "2025-26") -> np.nda
     return tax
 
 
+def tax_with_surcharge(taxable, regime: str = "new", fy: str = "2025-26") -> np.ndarray:
+    """Tax plus surcharge, before cess, with marginal relief at every threshold:
+    crossing a threshold can never cost more than the income above it."""
+    r = _rules(fy, regime)
+    t = np.asarray(taxable, float)
+    base = tax_before_cess(t, regime, fy)
+    total = base.copy()
+    prev_rate = 0.0
+    for threshold, rate in r["surcharge"]:
+        above = t > threshold
+        at_threshold = tax_before_cess(threshold, regime, fy) * (1 + prev_rate)
+        capped = np.minimum(base * (1 + rate), at_threshold + (t - threshold))
+        total = np.where(above, capped, total)
+        prev_rate = rate
+    return total
+
+
 def income_tax(taxable, regime: str = "new", fy: str = "2025-26") -> np.ndarray:
     """Final annual tax on already-computed taxable income, rounded to Rs 10."""
-    t = np.asarray(taxable, float)
-    if np.any(t > SURCHARGE_THRESHOLD):
-        raise ValueError("income above Rs 50 lakh needs surcharge, which is out of scope")
     r = _rules(fy, regime)
-    return round10(tax_before_cess(t, regime, fy) * (1 + r["cess"]))
+    return round10(tax_with_surcharge(taxable, regime, fy) * (1 + r["cess"]))
 
 
 def tax_on_salary(gross_salary, regime: str = "new", fy: str = "2025-26") -> np.ndarray:
