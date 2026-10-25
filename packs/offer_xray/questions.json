@@ -1,0 +1,56 @@
+{
+  "pack": "offer_xray",
+  "max_questions": 5,
+  "note": "Code decides what to ask (next required unanswered question); Super only rewords 'text' for the user. JSON rather than YAML so no extra dependency is needed.",
+  "questions": [
+    {
+      "id": "tenure",
+      "text": "How long do you expect to stay at whichever job you pick?",
+      "answer_type": "range",
+      "unit": "months",
+      "fills": ["tenure_months"],
+      "becomes": "triangular(low, midpoint, high)",
+      "chips": [[12, 24], [24, 36], [36, 48]],
+      "required": true
+    },
+    {
+      "id": "rent",
+      "text": "What monthly rent would you pay in each city?",
+      "answer_type": "value_per_option",
+      "unit": "INR/month",
+      "fills": ["A.monthly_rent", "B.monthly_rent"],
+      "required": true
+    },
+    {
+      "id": "tax_regime",
+      "text": "Which tax regime will you use?",
+      "answer_type": "choice",
+      "choices": ["new", "old"],
+      "fills": ["tax_regime"],
+      "default": "new",
+      "required": false,
+      "ask_when": "always"
+    },
+    {
+      "id": "variable_payout",
+      "text": "Do you know how much of the variable pay these companies usually pay out?",
+      "answer_type": "range_per_option",
+      "unit": "share of target",
+      "fills": ["A.variable_payout", "B.variable_payout"],
+      "becomes": "triangular(low, midpoint, high)",
+      "chips": [[0.4, 0.8], [0.6, 1.0], [0.9, 1.0]],
+      "required": false,
+      "ask_when": "an offer has annual_variable_target > 0"
+    },
+    {
+      "id": "switch",
+      "text": "If you switch jobs later, what hike would you expect?",
+      "answer_type": "range",
+      "unit": "share",
+      "fills": ["switch_hike"],
+      "becomes": "triangular(low, midpoint, high)",
+      "chips": [[0.1, 0.2], [0.15, 0.3], [0.25, 0.4]],
+      "required": false
+    }
+  ]
+}
