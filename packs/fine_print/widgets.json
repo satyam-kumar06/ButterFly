@@ -1,0 +1,14 @@
+{
+  "pack": "fine_print",
+  "primary_metric": "out_of_pocket",
+  "objective": "minimize",
+  "headline": "{winner_label} costs you less in {p_win_pct}% of futures",
+  "tie_note": "In futures with no hospital stay both policies cost nothing out of pocket; those count as ties.",
+  "metric_cards": [
+    {"metric": "out_of_pocket", "label": "Paid out of pocket", "unit": "INR"},
+    {"metric": "total_cost", "label": "Premiums + out of pocket", "unit": "INR"},
+    {"metric": "premiums_paid", "label": "Premiums paid", "unit": "INR"},
+    {"metric": "worst_year_cost", "label": "Worst single year", "unit": "INR"},
+    {"metric": "any_year_over_1_lakh", "label": "Chance a year costs over Rs 1 lakh", "unit": "share"}
+  ]
+}
