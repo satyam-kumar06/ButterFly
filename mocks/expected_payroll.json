@@ -1,0 +1,36 @@
+{
+  "fixture_version": "1.0.0",
+  "financial_year": "2025-26",
+  "assessment_year": "2026-27",
+  "regime": "new",
+  "standard_deduction": 75000,
+  "annual_employee_pf": 21600,
+  "annual_professional_tax": 2500,
+  "scope": "Resident individual, salary-only recurring compensation; no joining bonus, equity realization, exemptions or other income. Hand-worked reference cases; not a production tax engine.",
+  "annual_cases": [
+    {"id":"A_zero","option":"A","payout_fraction":0,"annual_gross":1320000,"taxable_rounded":1245000,"slab_tax":66750,"tax_after_rebate_relief":45000,"annual_tax":46800,"annual_net":1249100,"average_monthly_net":104091.67},
+    {"id":"A_half","option":"A","payout_fraction":0.5,"annual_gross":1455000,"taxable_rounded":1380000,"slab_tax":87000,"tax_after_rebate_relief":87000,"annual_tax":90480,"annual_net":1340420,"average_monthly_net":111701.67},
+    {"id":"A_target","option":"A","payout_fraction":1,"annual_gross":1590000,"taxable_rounded":1515000,"slab_tax":107250,"tax_after_rebate_relief":107250,"annual_tax":111540,"annual_net":1454360,"average_monthly_net":121196.67},
+    {"id":"B_zero","option":"B","payout_fraction":0,"annual_gross":1260000,"taxable_rounded":1185000,"slab_tax":58500,"tax_after_rebate_relief":0,"annual_tax":0,"annual_net":1235900,"average_monthly_net":102991.67},
+    {"id":"B_half","option":"B","payout_fraction":0.5,"annual_gross":1304777,"taxable_rounded":1229780,"slab_tax":64467,"tax_after_rebate_relief":29780,"annual_tax":30970,"annual_net":1249707,"average_monthly_net":104142.25},
+    {"id":"B_target","option":"B","payout_fraction":1,"annual_gross":1349554,"taxable_rounded":1274550,"slab_tax":71182.5,"tax_after_rebate_relief":71182.5,"annual_tax":74030,"annual_net":1251424,"average_monthly_net":104285.33}
+  ],
+  "monthly_slips": [
+    {"id":"A_april","option":"A","month":"April","gross":110000,"employee_pf":1800,"professional_tax":200,"tds":9295,"net":98705},
+    {"id":"A_february","option":"A","month":"February","gross":110000,"employee_pf":1800,"professional_tax":300,"tds":9295,"net":98605},
+    {"id":"A_march","option":"A","month":"March","gross":380000,"employee_pf":1800,"professional_tax":200,"tds":9295,"net":368705},
+    {"id":"B_april","option":"B","month":"April","gross":105000,"employee_pf":1800,"professional_tax":200,"tds":6169.17,"net":96830.83},
+    {"id":"B_february","option":"B","month":"February","gross":105000,"employee_pf":1800,"professional_tax":300,"tds":6169.17,"net":96730.83},
+    {"id":"B_march","option":"B","month":"March","gross":194554,"employee_pf":1800,"professional_tax":200,"tds":6169.13,"net":186384.87}
+  ],
+  "clawback_cases": [
+    {"option":"A","exit_month":11,"expected_repayment":150000},
+    {"option":"A","exit_month":12,"expected_repayment":0},
+    {"option":"B","exit_month":6,"expected_repayment":0}
+  ],
+  "equity_cases": [
+    {"option":"A","exit_month":11,"exit_price":1537.85,"vested_units":0,"expected_gross_value":0},
+    {"option":"A","exit_month":12,"exit_price":0,"vested_units":100,"expected_gross_value":0},
+    {"option":"A","exit_month":12,"exit_price":1537.85,"vested_units":100,"expected_gross_value":153785}
+  ]
+}

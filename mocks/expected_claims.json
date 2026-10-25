@@ -1,0 +1,12 @@
+{
+  "fixture_version":"1.0.0",
+  "scope":"Fictional policies only. All examples have a full opening pool, no previous claims and no exclusions unless explicitly stated.",
+  "cases":[
+    {"id":"A_room_cap","option":"A","bill":100000,"room_per_day":8000,"days":4,"admission_day":800,"condition":"general","expected_insurer":42000,"expected_oop":58000},
+    {"id":"A_shared_room","option":"A","bill":100000,"room_per_day":4000,"days":4,"admission_day":800,"condition":"general","expected_insurer":72000,"expected_oop":28000},
+    {"id":"B_room_within_cap","option":"B","bill":100000,"room_per_day":8000,"days":4,"admission_day":800,"condition":"general","expected_insurer":100000,"expected_oop":0},
+    {"id":"B_room_excess_only","option":"B","bill":100000,"room_per_day":12000,"days":4,"admission_day":800,"condition":"general","expected_insurer":92000,"expected_oop":8000},
+    {"id":"A_initial_wait","option":"A","bill":50000,"room_per_day":4000,"days":2,"admission_day":10,"condition":"general","expected_insurer":0,"expected_oop":50000},
+    {"id":"B_initial_wait","option":"B","bill":50000,"room_per_day":4000,"days":2,"admission_day":10,"condition":"general","expected_insurer":0,"expected_oop":50000}
+  ]
+}

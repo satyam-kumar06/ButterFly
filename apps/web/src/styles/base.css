@@ -1,0 +1,18 @@
+:root { color-scheme: dark; font-family: system-ui, sans-serif; color: #ededf5; background: #06060b; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+main { max-width: 960px; margin: 0 auto; padding: 64px 28px; }
+.eyebrow { color: #2de2e6; font-size: 12px; letter-spacing: .15em; }
+h1 { font-size: clamp(36px, 6vw, 64px); line-height: 1.08; letter-spacing: -.04em; }
+.intro { font-size: 18px; color: #9a9ab0; max-width: 620px; line-height: 1.6; }
+.notice { padding: 16px 20px; border: 1px solid #ffb54766; color: #ffb547; border-radius: 10px; }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 28px 0; }
+button { padding: 14px 20px; background: #2de2e6; color: #06060b; border: 0; border-radius: 10px; font: inherit; cursor: pointer; font-weight: 650; }
+button + button { background: #a970ff; }
+button:focus-visible { outline: 3px solid white; outline-offset: 4px; }
+button:disabled { opacity: .5; cursor: wait; }
+dl { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+dl div { background: #ffffff0f; padding: 20px; border-radius: 16px; border: 1px solid #ffffff1f; }
+dt { color: #9a9ab0; font-size: 13px; } dd { margin: 8px 0 0; font-size: 28px; }
+section p { line-height: 1.6; }
+footer { color: #9a9ab0; font-size: 12px; margin-top: 48px; line-height: 1.6; }

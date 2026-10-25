@@ -1,0 +1,1100 @@
+{
+  "$defs": {
+    "AgentStatusData": {
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": [
+            "created",
+            "extracting",
+            "interviewing",
+            "building",
+            "simulating",
+            "analyzing",
+            "ready",
+            "failed",
+            "cancelled"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "status",
+        "text"
+      ],
+      "title": "AgentStatusData",
+      "type": "object"
+    },
+    "AgentStatusEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0.0",
+          "default": "1.0.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "session_id": {
+          "title": "Session Id",
+          "type": "string"
+        },
+        "branch_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Branch Id"
+        },
+        "sequence": {
+          "minimum": 1,
+          "title": "Sequence",
+          "type": "integer"
+        },
+        "elapsed_ms": {
+          "minimum": 0,
+          "title": "Elapsed Ms",
+          "type": "integer"
+        },
+        "data_kind": {
+          "enum": [
+            "mock",
+            "simulation"
+          ],
+          "title": "Data Kind",
+          "type": "string"
+        },
+        "event": {
+          "const": "agent.status",
+          "title": "Event",
+          "type": "string"
+        },
+        "data": {
+          "$ref": "#/$defs/AgentStatusData"
+        }
+      },
+      "required": [
+        "id",
+        "session_id",
+        "branch_id",
+        "sequence",
+        "elapsed_ms",
+        "data_kind",
+        "event",
+        "data"
+      ],
+      "title": "AgentStatusEvent",
+      "type": "object"
+    },
+    "CodeChunkData": {
+      "additionalProperties": false,
+      "properties": {
+        "file": {
+          "enum": [
+            "model.py",
+            "test_model.py"
+          ],
+          "title": "File",
+          "type": "string"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        },
+        "attempt": {
+          "maximum": 3,
+          "minimum": 1,
+          "title": "Attempt",
+          "type": "integer"
+        },
+        "reset": {
+          "default": false,
+          "title": "Reset",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "file",
+        "text",
+        "attempt"
+      ],
+      "title": "CodeChunkData",
+      "type": "object"
+    },
+    "CodeChunkEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0.0",
+          "default": "1.0.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "session_id": {
+          "title": "Session Id",
+          "type": "string"
+        },
+        "branch_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Branch Id"
+        },
+        "sequence": {
+          "minimum": 1,
+          "title": "Sequence",
+          "type": "integer"
+        },
+        "elapsed_ms": {
+          "minimum": 0,
+          "title": "Elapsed Ms",
+          "type": "integer"
+        },
+        "data_kind": {
+          "enum": [
+            "mock",
+            "simulation"
+          ],
+          "title": "Data Kind",
+          "type": "string"
+        },
+        "event": {
+          "const": "code.chunk",
+          "title": "Event",
+          "type": "string"
+        },
+        "data": {
+          "$ref": "#/$defs/CodeChunkData"
+        }
+      },
+      "required": [
+        "id",
+        "session_id",
+        "branch_id",
+        "sequence",
+        "elapsed_ms",
+        "data_kind",
+        "event",
+        "data"
+      ],
+      "title": "CodeChunkEvent",
+      "type": "object"
+    },
+    "ErrorData": {
+      "additionalProperties": false,
+      "properties": {
+        "where": {
+          "title": "Where",
+          "type": "string"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        },
+        "recoverable": {
+          "title": "Recoverable",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "where",
+        "message",
+        "recoverable"
+      ],
+      "title": "ErrorData",
+      "type": "object"
+    },
+    "ErrorEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0.0",
+          "default": "1.0.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "session_id": {
+          "title": "Session Id",
+          "type": "string"
+        },
+        "branch_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Branch Id"
+        },
+        "sequence": {
+          "minimum": 1,
+          "title": "Sequence",
+          "type": "integer"
+        },
+        "elapsed_ms": {
+          "minimum": 0,
+          "title": "Elapsed Ms",
+          "type": "integer"
+        },
+        "data_kind": {
+          "enum": [
+            "mock",
+            "simulation"
+          ],
+          "title": "Data Kind",
+          "type": "string"
+        },
+        "event": {
+          "const": "error",
+          "title": "Event",
+          "type": "string"
+        },
+        "data": {
+          "$ref": "#/$defs/ErrorData"
+        }
+      },
+      "required": [
+        "id",
+        "session_id",
+        "branch_id",
+        "sequence",
+        "elapsed_ms",
+        "data_kind",
+        "event",
+        "data"
+      ],
+      "title": "ErrorEvent",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "document_id": {
+          "title": "Document Id",
+          "type": "string"
+        },
+        "page": {
+          "minimum": 1,
+          "title": "Page",
+          "type": "integer"
+        },
+        "quote": {
+          "minLength": 1,
+          "title": "Quote",
+          "type": "string"
+        },
+        "matched": {
+          "title": "Matched",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "document_id",
+        "page",
+        "quote",
+        "matched"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ExtractDoneData": {
+      "additionalProperties": false,
+      "properties": {
+        "document_id": {
+          "title": "Document Id",
+          "type": "string"
+        },
+        "terms": {
+          "items": {
+            "$ref": "#/$defs/Term"
+          },
+          "title": "Terms",
+          "type": "array"
+        }
+      },
+      "required": [
+        "document_id",
+        "terms"
+      ],
+      "title": "ExtractDoneData",
+      "type": "object"
+    },
+    "ExtractDoneEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0.0",
+          "default": "1.0.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "session_id": {
+          "title": "Session Id",
+          "type": "string"
+        },
+        "branch_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Branch Id"
+        },
+        "sequence": {
+          "minimum": 1,
+          "title": "Sequence",
+          "type": "integer"
+        },
+        "elapsed_ms": {
+          "minimum": 0,
+          "title": "Elapsed Ms",
+          "type": "integer"
+        },
+        "data_kind": {
+          "enum": [
+            "mock",
+            "simulation"
+          ],
+          "title": "Data Kind",
+          "type": "string"
+        },
+        "event": {
+          "const": "extract.done",
+          "title": "Event",
+          "type": "string"
+        },
+        "data": {
+          "$ref": "#/$defs/ExtractDoneData"
+        }
+      },
+      "required": [
+        "id",
+        "session_id",
+        "branch_id",
+        "sequence",
+        "elapsed_ms",
+        "data_kind",
+        "event",
+        "data"
+      ],
+      "title": "ExtractDoneEvent",
+      "type": "object"
+    },
+    "FlipReadyEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0.0",
+          "default": "1.0.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "session_id": {
+          "title": "Session Id",
+          "type": "string"
+        },
+        "branch_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Branch Id"
+        },
+        "sequence": {
+          "minimum": 1,
+          "title": "Sequence",
+          "type": "integer"
+        },
+        "elapsed_ms": {
+          "minimum": 0,
+          "title": "Elapsed Ms",
+          "type": "integer"
+        },
+        "data_kind": {
+          "enum": [
+            "mock",
+            "simulation"
+          ],
+          "title": "Data Kind",
+          "type": "string"
+        },
+        "event": {
+          "const": "flip.ready",
+          "title": "Event",
+          "type": "string"
+        },
+        "data": {
+          "$ref": "#/$defs/ReadyData"
+        }
+      },
+      "required": [
+        "id",
+        "session_id",
+        "branch_id",
+        "sequence",
+        "elapsed_ms",
+        "data_kind",
+        "event",
+        "data"
+      ],
+      "title": "FlipReadyEvent",
+      "type": "object"
+    },
+    "LlmCallData": {
+      "additionalProperties": false,
+      "properties": {
+        "tier": {
+          "enum": [
+            "nano",
+            "super",
+            "ultra"
+          ],
+          "title": "Tier",
+          "type": "string"
+        },
+        "tokens_in": {
+          "minimum": 0,
+          "title": "Tokens In",
+          "type": "integer"
+        },
+        "tokens_out": {
+          "minimum": 0,
+          "title": "Tokens Out",
+          "type": "integer"
+        },
+        "ms": {
+          "minimum": 0,
+          "title": "Ms",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "tier",
+        "tokens_in",
+        "tokens_out",
+        "ms"
+      ],
+      "title": "LlmCallData",
+      "type": "object"
+    },
+    "LlmCallEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0.0",
+          "default": "1.0.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "session_id": {
+          "title": "Session Id",
+          "type": "string"
+        },
+        "branch_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Branch Id"
+        },
+        "sequence": {
+          "minimum": 1,
+          "title": "Sequence",
+          "type": "integer"
+        },
+        "elapsed_ms": {
+          "minimum": 0,
+          "title": "Elapsed Ms",
+          "type": "integer"
+        },
+        "data_kind": {
+          "enum": [
+            "mock",
+            "simulation"
+          ],
+          "title": "Data Kind",
+          "type": "string"
+        },
+        "event": {
+          "const": "llm.call",
+          "title": "Event",
+          "type": "string"
+        },
+        "data": {
+          "$ref": "#/$defs/LlmCallData"
+        }
+      },
+      "required": [
+        "id",
+        "session_id",
+        "branch_id",
+        "sequence",
+        "elapsed_ms",
+        "data_kind",
+        "event",
+        "data"
+      ],
+      "title": "LlmCallEvent",
+      "type": "object"
+    },
+    "ReadyData": {
+      "additionalProperties": false,
+      "properties": {
+        "branch_id": {
+          "title": "Branch Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "branch_id"
+      ],
+      "title": "ReadyData",
+      "type": "object"
+    },
+    "ResultsReadyEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0.0",
+          "default": "1.0.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "session_id": {
+          "title": "Session Id",
+          "type": "string"
+        },
+        "branch_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Branch Id"
+        },
+        "sequence": {
+          "minimum": 1,
+          "title": "Sequence",
+          "type": "integer"
+        },
+        "elapsed_ms": {
+          "minimum": 0,
+          "title": "Elapsed Ms",
+          "type": "integer"
+        },
+        "data_kind": {
+          "enum": [
+            "mock",
+            "simulation"
+          ],
+          "title": "Data Kind",
+          "type": "string"
+        },
+        "event": {
+          "const": "results.ready",
+          "title": "Event",
+          "type": "string"
+        },
+        "data": {
+          "$ref": "#/$defs/ReadyData"
+        }
+      },
+      "required": [
+        "id",
+        "session_id",
+        "branch_id",
+        "sequence",
+        "elapsed_ms",
+        "data_kind",
+        "event",
+        "data"
+      ],
+      "title": "ResultsReadyEvent",
+      "type": "object"
+    },
+    "SandboxForkData": {
+      "additionalProperties": false,
+      "properties": {
+        "fork_id": {
+          "title": "Fork Id",
+          "type": "string"
+        },
+        "parent": {
+          "title": "Parent",
+          "type": "string"
+        },
+        "purpose": {
+          "enum": [
+            "test",
+            "main",
+            "sweep",
+            "threshold",
+            "frontier",
+            "whatif"
+          ],
+          "title": "Purpose",
+          "type": "string"
+        },
+        "option_id": {
+          "anyOf": [
+            {
+              "enum": [
+                "A",
+                "B"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Option Id"
+        }
+      },
+      "required": [
+        "fork_id",
+        "parent",
+        "purpose"
+      ],
+      "title": "SandboxForkData",
+      "type": "object"
+    },
+    "SandboxForkEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0.0",
+          "default": "1.0.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "session_id": {
+          "title": "Session Id",
+          "type": "string"
+        },
+        "branch_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Branch Id"
+        },
+        "sequence": {
+          "minimum": 1,
+          "title": "Sequence",
+          "type": "integer"
+        },
+        "elapsed_ms": {
+          "minimum": 0,
+          "title": "Elapsed Ms",
+          "type": "integer"
+        },
+        "data_kind": {
+          "enum": [
+            "mock",
+            "simulation"
+          ],
+          "title": "Data Kind",
+          "type": "string"
+        },
+        "event": {
+          "const": "sandbox.fork",
+          "title": "Event",
+          "type": "string"
+        },
+        "data": {
+          "$ref": "#/$defs/SandboxForkData"
+        }
+      },
+      "required": [
+        "id",
+        "session_id",
+        "branch_id",
+        "sequence",
+        "elapsed_ms",
+        "data_kind",
+        "event",
+        "data"
+      ],
+      "title": "SandboxForkEvent",
+      "type": "object"
+    },
+    "SimProgressData": {
+      "additionalProperties": false,
+      "properties": {
+        "fork_id": {
+          "title": "Fork Id",
+          "type": "string"
+        },
+        "done": {
+          "minimum": 0,
+          "title": "Done",
+          "type": "integer"
+        },
+        "total": {
+          "exclusiveMinimum": 0,
+          "title": "Total",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "fork_id",
+        "done",
+        "total"
+      ],
+      "title": "SimProgressData",
+      "type": "object"
+    },
+    "SimProgressEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0.0",
+          "default": "1.0.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "session_id": {
+          "title": "Session Id",
+          "type": "string"
+        },
+        "branch_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Branch Id"
+        },
+        "sequence": {
+          "minimum": 1,
+          "title": "Sequence",
+          "type": "integer"
+        },
+        "elapsed_ms": {
+          "minimum": 0,
+          "title": "Elapsed Ms",
+          "type": "integer"
+        },
+        "data_kind": {
+          "enum": [
+            "mock",
+            "simulation"
+          ],
+          "title": "Data Kind",
+          "type": "string"
+        },
+        "event": {
+          "const": "sim.progress",
+          "title": "Event",
+          "type": "string"
+        },
+        "data": {
+          "$ref": "#/$defs/SimProgressData"
+        }
+      },
+      "required": [
+        "id",
+        "session_id",
+        "branch_id",
+        "sequence",
+        "elapsed_ms",
+        "data_kind",
+        "event",
+        "data"
+      ],
+      "title": "SimProgressEvent",
+      "type": "object"
+    },
+    "Term": {
+      "additionalProperties": false,
+      "properties": {
+        "option_id": {
+          "enum": [
+            "A",
+            "B"
+          ],
+          "title": "Option Id",
+          "type": "string"
+        },
+        "field": {
+          "title": "Field",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Value"
+        },
+        "unit": {
+          "title": "Unit",
+          "type": "string"
+        },
+        "confidence": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "evidence": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Evidence"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "confirmed": {
+          "default": false,
+          "title": "Confirmed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "option_id",
+        "field",
+        "value",
+        "unit",
+        "confidence",
+        "evidence"
+      ],
+      "title": "Term",
+      "type": "object"
+    },
+    "TestResultData": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "passed": {
+          "title": "Passed",
+          "type": "boolean"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        },
+        "attempt": {
+          "maximum": 3,
+          "minimum": 1,
+          "title": "Attempt",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "name",
+        "passed",
+        "message",
+        "attempt"
+      ],
+      "title": "TestResultData",
+      "type": "object"
+    },
+    "TestResultEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0.0",
+          "default": "1.0.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "session_id": {
+          "title": "Session Id",
+          "type": "string"
+        },
+        "branch_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Branch Id"
+        },
+        "sequence": {
+          "minimum": 1,
+          "title": "Sequence",
+          "type": "integer"
+        },
+        "elapsed_ms": {
+          "minimum": 0,
+          "title": "Elapsed Ms",
+          "type": "integer"
+        },
+        "data_kind": {
+          "enum": [
+            "mock",
+            "simulation"
+          ],
+          "title": "Data Kind",
+          "type": "string"
+        },
+        "event": {
+          "const": "test.result",
+          "title": "Event",
+          "type": "string"
+        },
+        "data": {
+          "$ref": "#/$defs/TestResultData"
+        }
+      },
+      "required": [
+        "id",
+        "session_id",
+        "branch_id",
+        "sequence",
+        "elapsed_ms",
+        "data_kind",
+        "event",
+        "data"
+      ],
+      "title": "TestResultEvent",
+      "type": "object"
+    }
+  },
+  "discriminator": {
+    "mapping": {
+      "agent.status": "#/$defs/AgentStatusEvent",
+      "code.chunk": "#/$defs/CodeChunkEvent",
+      "error": "#/$defs/ErrorEvent",
+      "extract.done": "#/$defs/ExtractDoneEvent",
+      "flip.ready": "#/$defs/FlipReadyEvent",
+      "llm.call": "#/$defs/LlmCallEvent",
+      "results.ready": "#/$defs/ResultsReadyEvent",
+      "sandbox.fork": "#/$defs/SandboxForkEvent",
+      "sim.progress": "#/$defs/SimProgressEvent",
+      "test.result": "#/$defs/TestResultEvent"
+    },
+    "propertyName": "event"
+  },
+  "oneOf": [
+    {
+      "$ref": "#/$defs/ExtractDoneEvent"
+    },
+    {
+      "$ref": "#/$defs/AgentStatusEvent"
+    },
+    {
+      "$ref": "#/$defs/CodeChunkEvent"
+    },
+    {
+      "$ref": "#/$defs/TestResultEvent"
+    },
+    {
+      "$ref": "#/$defs/SandboxForkEvent"
+    },
+    {
+      "$ref": "#/$defs/SimProgressEvent"
+    },
+    {
+      "$ref": "#/$defs/ResultsReadyEvent"
+    },
+    {
+      "$ref": "#/$defs/FlipReadyEvent"
+    },
+    {
+      "$ref": "#/$defs/LlmCallEvent"
+    },
+    {
+      "$ref": "#/$defs/ErrorEvent"
+    }
+  ],
+  "title": "StreamEventSchema",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

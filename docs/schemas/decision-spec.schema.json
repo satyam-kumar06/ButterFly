@@ -1,0 +1,568 @@
+{
+  "$defs": {
+    "Bernoulli": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "bernoulli",
+          "title": "Type",
+          "type": "string"
+        },
+        "p": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "P",
+          "type": "number"
+        }
+      },
+      "required": [
+        "type",
+        "p"
+      ],
+      "title": "Bernoulli",
+      "type": "object"
+    },
+    "Discrete": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "discrete",
+          "title": "Type",
+          "type": "string"
+        },
+        "values": {
+          "items": {
+            "type": "number"
+          },
+          "minItems": 1,
+          "title": "Values",
+          "type": "array"
+        },
+        "probs": {
+          "items": {
+            "maximum": 1,
+            "minimum": 0,
+            "type": "number"
+          },
+          "minItems": 1,
+          "title": "Probs",
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "values",
+        "probs"
+      ],
+      "title": "Discrete",
+      "type": "object"
+    },
+    "DistributionVariable": {
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "enum": [
+            "user",
+            "default",
+            "data"
+          ],
+          "title": "Source",
+          "type": "string"
+        },
+        "source_ref": {
+          "minLength": 1,
+          "title": "Source Ref",
+          "type": "string"
+        },
+        "confirmed": {
+          "default": false,
+          "title": "Confirmed",
+          "type": "boolean"
+        },
+        "name": {
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "unit": {
+          "minLength": 1,
+          "title": "Unit",
+          "type": "string"
+        },
+        "editable": {
+          "default": true,
+          "title": "Editable",
+          "type": "boolean"
+        },
+        "sweep_range": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SweepRange"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "kind": {
+          "const": "distribution",
+          "title": "Kind",
+          "type": "string"
+        },
+        "dist": {
+          "discriminator": {
+            "mapping": {
+              "bernoulli": "#/$defs/Bernoulli",
+              "discrete": "#/$defs/Discrete",
+              "lognormal": "#/$defs/Lognormal",
+              "normal": "#/$defs/Normal",
+              "triangular": "#/$defs/Triangular",
+              "uniform": "#/$defs/Uniform"
+            },
+            "propertyName": "type"
+          },
+          "oneOf": [
+            {
+              "$ref": "#/$defs/Normal"
+            },
+            {
+              "$ref": "#/$defs/Lognormal"
+            },
+            {
+              "$ref": "#/$defs/Uniform"
+            },
+            {
+              "$ref": "#/$defs/Triangular"
+            },
+            {
+              "$ref": "#/$defs/Bernoulli"
+            },
+            {
+              "$ref": "#/$defs/Discrete"
+            }
+          ],
+          "title": "Dist"
+        }
+      },
+      "required": [
+        "source",
+        "source_ref",
+        "name",
+        "unit",
+        "kind",
+        "dist"
+      ],
+      "title": "DistributionVariable",
+      "type": "object"
+    },
+    "Event": {
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "enum": [
+            "user",
+            "default",
+            "data"
+          ],
+          "title": "Source",
+          "type": "string"
+        },
+        "source_ref": {
+          "minLength": 1,
+          "title": "Source Ref",
+          "type": "string"
+        },
+        "confirmed": {
+          "default": false,
+          "title": "Confirmed",
+          "type": "boolean"
+        },
+        "name": {
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "prob_per_year": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Prob Per Year",
+          "type": "number"
+        },
+        "effect": {
+          "minLength": 1,
+          "title": "Effect",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source",
+        "source_ref",
+        "name",
+        "prob_per_year",
+        "effect"
+      ],
+      "title": "Event",
+      "type": "object"
+    },
+    "FixedVariable": {
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "enum": [
+            "user",
+            "default",
+            "data"
+          ],
+          "title": "Source",
+          "type": "string"
+        },
+        "source_ref": {
+          "minLength": 1,
+          "title": "Source Ref",
+          "type": "string"
+        },
+        "confirmed": {
+          "default": false,
+          "title": "Confirmed",
+          "type": "boolean"
+        },
+        "name": {
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "unit": {
+          "minLength": 1,
+          "title": "Unit",
+          "type": "string"
+        },
+        "editable": {
+          "default": true,
+          "title": "Editable",
+          "type": "boolean"
+        },
+        "sweep_range": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SweepRange"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "kind": {
+          "const": "fixed",
+          "title": "Kind",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Value"
+        }
+      },
+      "required": [
+        "source",
+        "source_ref",
+        "name",
+        "unit",
+        "kind",
+        "value"
+      ],
+      "title": "FixedVariable",
+      "type": "object"
+    },
+    "Lognormal": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "lognormal",
+          "title": "Type",
+          "type": "string"
+        },
+        "mu": {
+          "title": "Mu",
+          "type": "number"
+        },
+        "sigma": {
+          "minimum": 0,
+          "title": "Sigma",
+          "type": "number"
+        }
+      },
+      "required": [
+        "type",
+        "mu",
+        "sigma"
+      ],
+      "title": "Lognormal",
+      "type": "object"
+    },
+    "Metrics": {
+      "additionalProperties": false,
+      "properties": {
+        "primary": {
+          "minLength": 1,
+          "title": "Primary",
+          "type": "string"
+        },
+        "direction": {
+          "enum": [
+            "maximize",
+            "minimize"
+          ],
+          "title": "Direction",
+          "type": "string"
+        },
+        "others": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Others",
+          "type": "array"
+        }
+      },
+      "required": [
+        "primary",
+        "direction"
+      ],
+      "title": "Metrics",
+      "type": "object"
+    },
+    "Normal": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "normal",
+          "title": "Type",
+          "type": "string"
+        },
+        "mean": {
+          "title": "Mean",
+          "type": "number"
+        },
+        "std": {
+          "minimum": 0,
+          "title": "Std",
+          "type": "number"
+        }
+      },
+      "required": [
+        "type",
+        "mean",
+        "std"
+      ],
+      "title": "Normal",
+      "type": "object"
+    },
+    "Option": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "enum": [
+            "A",
+            "B"
+          ],
+          "title": "Id",
+          "type": "string"
+        },
+        "label": {
+          "minLength": 1,
+          "title": "Label",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "label"
+      ],
+      "title": "Option",
+      "type": "object"
+    },
+    "SweepRange": {
+      "additionalProperties": false,
+      "properties": {
+        "low": {
+          "title": "Low",
+          "type": "number"
+        },
+        "high": {
+          "title": "High",
+          "type": "number"
+        }
+      },
+      "required": [
+        "low",
+        "high"
+      ],
+      "title": "SweepRange",
+      "type": "object"
+    },
+    "Triangular": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "triangular",
+          "title": "Type",
+          "type": "string"
+        },
+        "low": {
+          "title": "Low",
+          "type": "number"
+        },
+        "mode": {
+          "title": "Mode",
+          "type": "number"
+        },
+        "high": {
+          "title": "High",
+          "type": "number"
+        }
+      },
+      "required": [
+        "type",
+        "low",
+        "mode",
+        "high"
+      ],
+      "title": "Triangular",
+      "type": "object"
+    },
+    "Uniform": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "uniform",
+          "title": "Type",
+          "type": "string"
+        },
+        "low": {
+          "title": "Low",
+          "type": "number"
+        },
+        "high": {
+          "title": "High",
+          "type": "number"
+        }
+      },
+      "required": [
+        "type",
+        "low",
+        "high"
+      ],
+      "title": "Uniform",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0",
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "decision_id": {
+      "minLength": 1,
+      "title": "Decision Id",
+      "type": "string"
+    },
+    "title": {
+      "minLength": 1,
+      "title": "Title",
+      "type": "string"
+    },
+    "pack": {
+      "enum": [
+        "offer_xray",
+        "fine_print",
+        "open"
+      ],
+      "title": "Pack",
+      "type": "string"
+    },
+    "horizon_years": {
+      "maximum": 20,
+      "minimum": 1,
+      "title": "Horizon Years",
+      "type": "integer"
+    },
+    "step": {
+      "const": "month",
+      "default": "month",
+      "title": "Step",
+      "type": "string"
+    },
+    "currency": {
+      "const": "INR",
+      "default": "INR",
+      "title": "Currency",
+      "type": "string"
+    },
+    "options": {
+      "items": {
+        "$ref": "#/$defs/Option"
+      },
+      "maxItems": 2,
+      "minItems": 2,
+      "title": "Options",
+      "type": "array"
+    },
+    "variables": {
+      "items": {
+        "discriminator": {
+          "mapping": {
+            "distribution": "#/$defs/DistributionVariable",
+            "fixed": "#/$defs/FixedVariable"
+          },
+          "propertyName": "kind"
+        },
+        "oneOf": [
+          {
+            "$ref": "#/$defs/FixedVariable"
+          },
+          {
+            "$ref": "#/$defs/DistributionVariable"
+          }
+        ]
+      },
+      "minItems": 1,
+      "title": "Variables",
+      "type": "array"
+    },
+    "events": {
+      "items": {
+        "$ref": "#/$defs/Event"
+      },
+      "title": "Events",
+      "type": "array"
+    },
+    "metrics": {
+      "$ref": "#/$defs/Metrics"
+    }
+  },
+  "required": [
+    "decision_id",
+    "title",
+    "pack",
+    "horizon_years",
+    "options",
+    "variables",
+    "metrics"
+  ],
+  "title": "DecisionSpec",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

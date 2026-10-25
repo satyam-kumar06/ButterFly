@@ -1,0 +1,382 @@
+{
+  "$defs": {
+    "Bernoulli": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "bernoulli",
+          "title": "Type",
+          "type": "string"
+        },
+        "p": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "P",
+          "type": "number"
+        }
+      },
+      "required": [
+        "type",
+        "p"
+      ],
+      "title": "Bernoulli",
+      "type": "object"
+    },
+    "Discrete": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "discrete",
+          "title": "Type",
+          "type": "string"
+        },
+        "values": {
+          "items": {
+            "type": "number"
+          },
+          "minItems": 1,
+          "title": "Values",
+          "type": "array"
+        },
+        "probs": {
+          "items": {
+            "maximum": 1,
+            "minimum": 0,
+            "type": "number"
+          },
+          "minItems": 1,
+          "title": "Probs",
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "values",
+        "probs"
+      ],
+      "title": "Discrete",
+      "type": "object"
+    },
+    "DistributionVariable": {
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "enum": [
+            "user",
+            "default",
+            "data"
+          ],
+          "title": "Source",
+          "type": "string"
+        },
+        "source_ref": {
+          "minLength": 1,
+          "title": "Source Ref",
+          "type": "string"
+        },
+        "confirmed": {
+          "default": false,
+          "title": "Confirmed",
+          "type": "boolean"
+        },
+        "name": {
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "unit": {
+          "minLength": 1,
+          "title": "Unit",
+          "type": "string"
+        },
+        "editable": {
+          "default": true,
+          "title": "Editable",
+          "type": "boolean"
+        },
+        "sweep_range": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SweepRange"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "kind": {
+          "const": "distribution",
+          "title": "Kind",
+          "type": "string"
+        },
+        "dist": {
+          "discriminator": {
+            "mapping": {
+              "bernoulli": "#/$defs/Bernoulli",
+              "discrete": "#/$defs/Discrete",
+              "lognormal": "#/$defs/Lognormal",
+              "normal": "#/$defs/Normal",
+              "triangular": "#/$defs/Triangular",
+              "uniform": "#/$defs/Uniform"
+            },
+            "propertyName": "type"
+          },
+          "oneOf": [
+            {
+              "$ref": "#/$defs/Normal"
+            },
+            {
+              "$ref": "#/$defs/Lognormal"
+            },
+            {
+              "$ref": "#/$defs/Uniform"
+            },
+            {
+              "$ref": "#/$defs/Triangular"
+            },
+            {
+              "$ref": "#/$defs/Bernoulli"
+            },
+            {
+              "$ref": "#/$defs/Discrete"
+            }
+          ],
+          "title": "Dist"
+        }
+      },
+      "required": [
+        "source",
+        "source_ref",
+        "name",
+        "unit",
+        "kind",
+        "dist"
+      ],
+      "title": "DistributionVariable",
+      "type": "object"
+    },
+    "FixedVariable": {
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "enum": [
+            "user",
+            "default",
+            "data"
+          ],
+          "title": "Source",
+          "type": "string"
+        },
+        "source_ref": {
+          "minLength": 1,
+          "title": "Source Ref",
+          "type": "string"
+        },
+        "confirmed": {
+          "default": false,
+          "title": "Confirmed",
+          "type": "boolean"
+        },
+        "name": {
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "unit": {
+          "minLength": 1,
+          "title": "Unit",
+          "type": "string"
+        },
+        "editable": {
+          "default": true,
+          "title": "Editable",
+          "type": "boolean"
+        },
+        "sweep_range": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SweepRange"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "kind": {
+          "const": "fixed",
+          "title": "Kind",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Value"
+        }
+      },
+      "required": [
+        "source",
+        "source_ref",
+        "name",
+        "unit",
+        "kind",
+        "value"
+      ],
+      "title": "FixedVariable",
+      "type": "object"
+    },
+    "Lognormal": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "lognormal",
+          "title": "Type",
+          "type": "string"
+        },
+        "mu": {
+          "title": "Mu",
+          "type": "number"
+        },
+        "sigma": {
+          "minimum": 0,
+          "title": "Sigma",
+          "type": "number"
+        }
+      },
+      "required": [
+        "type",
+        "mu",
+        "sigma"
+      ],
+      "title": "Lognormal",
+      "type": "object"
+    },
+    "Normal": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "normal",
+          "title": "Type",
+          "type": "string"
+        },
+        "mean": {
+          "title": "Mean",
+          "type": "number"
+        },
+        "std": {
+          "minimum": 0,
+          "title": "Std",
+          "type": "number"
+        }
+      },
+      "required": [
+        "type",
+        "mean",
+        "std"
+      ],
+      "title": "Normal",
+      "type": "object"
+    },
+    "SweepRange": {
+      "additionalProperties": false,
+      "properties": {
+        "low": {
+          "title": "Low",
+          "type": "number"
+        },
+        "high": {
+          "title": "High",
+          "type": "number"
+        }
+      },
+      "required": [
+        "low",
+        "high"
+      ],
+      "title": "SweepRange",
+      "type": "object"
+    },
+    "Triangular": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "triangular",
+          "title": "Type",
+          "type": "string"
+        },
+        "low": {
+          "title": "Low",
+          "type": "number"
+        },
+        "mode": {
+          "title": "Mode",
+          "type": "number"
+        },
+        "high": {
+          "title": "High",
+          "type": "number"
+        }
+      },
+      "required": [
+        "type",
+        "low",
+        "mode",
+        "high"
+      ],
+      "title": "Triangular",
+      "type": "object"
+    },
+    "Uniform": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "uniform",
+          "title": "Type",
+          "type": "string"
+        },
+        "low": {
+          "title": "Low",
+          "type": "number"
+        },
+        "high": {
+          "title": "High",
+          "type": "number"
+        }
+      },
+      "required": [
+        "type",
+        "low",
+        "high"
+      ],
+      "title": "Uniform",
+      "type": "object"
+    }
+  },
+  "discriminator": {
+    "mapping": {
+      "distribution": "#/$defs/DistributionVariable",
+      "fixed": "#/$defs/FixedVariable"
+    },
+    "propertyName": "kind"
+  },
+  "oneOf": [
+    {
+      "$ref": "#/$defs/FixedVariable"
+    },
+    {
+      "$ref": "#/$defs/DistributionVariable"
+    }
+  ],
+  "title": "VariableSchema",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}
