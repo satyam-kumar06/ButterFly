@@ -1,0 +1,17 @@
+{
+  "pack": "offer_xray",
+  "primary_metric": "cumulative_in_hand",
+  "objective": "maximize",
+  "headline": "{winner_label} wins in {p_win_pct}% of futures",
+  "hud_chips": [
+    {"id": "ctc_gap_vs_real_gap", "label": "CTC gap vs real gap", "metrics": ["cumulative_in_hand"]}
+  ],
+  "metric_cards": [
+    {"metric": "cumulative_in_hand", "label": "Money in hand over the horizon", "unit": "INR"},
+    {"metric": "savings_after_rent", "label": "Savings after rent", "unit": "INR"},
+    {"metric": "worst_month", "label": "Worst month", "unit": "INR"},
+    {"metric": "clawback_paid", "label": "Joining bonus repaid", "unit": "INR"},
+    {"metric": "equity_value", "label": "Equity realised", "unit": "INR"},
+    {"metric": "tax_paid", "label": "Income tax paid", "unit": "INR"}
+  ]
+}
