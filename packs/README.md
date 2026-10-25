@@ -16,7 +16,7 @@ A pack is everything Fork needs for one kind of decision. Owner: Person B (Engin
 ```python
 def simulate(option_id: str, spec: dict, rng: np.random.Generator, n: int) -> dict:
     return {
-        "cash_in_hand": ...,  # (n, quarters) cumulative money at each quarter end
+        "cumulative": ...,  # (n, quarters) running total at each quarter end (money in hand, or cost)
         "metrics": {...},  # name -> (n,) array; must include spec["metrics"]["primary"]
         "story": {...},  # name -> (n,) array of raw facts for hover stories
     }

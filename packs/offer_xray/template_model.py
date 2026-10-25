@@ -7,7 +7,7 @@ Two jobs:
 Interface (fixed, shared with agent-written models):
 
     simulate(option_id, spec, rng, n) -> {
-        "cash_in_hand": (n, quarters) cumulative money in hand at each quarter end,
+        "cumulative": (n, quarters) cumulative money in hand at each quarter end,
         "metrics": {name: (n,) array},          # includes the spec's primary metric
         "story":   {name: (n,) array},          # raw facts for hover stories
     }
@@ -163,7 +163,7 @@ def simulate(option_id: str, spec: dict, rng: np.random.Generator, n: int) -> di
     total = in_hand.sum(axis=1)
     rent = float(s.scalar(f"{option_id}.monthly_rent", 0.0))
     return {
-        "cash_in_hand": cum_q,
+        "cumulative": cum_q,
         "metrics": {
             "cumulative_in_hand": total,
             "savings_after_rent": total - rent * M,

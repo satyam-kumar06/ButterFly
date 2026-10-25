@@ -114,7 +114,7 @@ def check_year_one_net_matches_oracle(simulate) -> None:
     spec = zero_volatility()
     for opt in ("A", "B"):
         r = _run(simulate, spec, opt)
-        got = r["cash_in_hand"][:, -1]
+        got = r["cumulative"][:, -1]
         assert np.allclose(got, oracle[opt], atol=1.0), (opt, got[0], oracle[opt])
         assert np.allclose(r["metrics"]["cumulative_in_hand"], oracle[opt], atol=1.0)
 
@@ -124,7 +124,7 @@ def check_monthly_slip_quarters(simulate) -> None:
     slips = {(s["option"], s["month"]): s for s in payroll()["monthly_slips"]}
     spec = zero_volatility()
     for opt in ("A", "B"):
-        q1 = _run(simulate, spec, opt)["cash_in_hand"][:, 0]
+        q1 = _run(simulate, spec, opt)["cumulative"][:, 0]
         assert np.allclose(q1, 3 * slips[(opt, "April")]["net"], atol=1.0), (opt, q1[0])
 
 
@@ -159,8 +159,8 @@ def check_shapes_and_finite(simulate) -> None:
     q = spec["horizon_years"] * 4
     for opt in ("A", "B"):
         r = _run(simulate, spec, opt, n=500)
-        assert r["cash_in_hand"].shape == (500, q)
-        assert np.isfinite(r["cash_in_hand"]).all()
+        assert r["cumulative"].shape == (500, q)
+        assert np.isfinite(r["cumulative"]).all()
         for name, arr in r["metrics"].items():
             assert arr.shape == (500,), name
             assert np.isfinite(arr).all(), name
