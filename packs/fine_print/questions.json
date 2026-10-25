@@ -1,0 +1,12 @@
+{
+  "pack": "fine_print",
+  "max_questions": 5,
+  "note": "Code decides what to ask; Super only rewords 'text'. Health details stay in the session only.",
+  "questions": [
+    {"id": "members", "text": "Who will the policy cover, and how old is each person?", "answer_type": "list_of_ages", "unit": "years", "fills": ["member_1_age", "member_2_age", "member_3_age", "member_4_age"], "required": true},
+    {"id": "city", "text": "Which city would you usually be treated in?", "answer_type": "choice", "choices": ["Bengaluru", "Pune", "Mumbai", "Delhi", "Other metro", "Non-metro"], "fills": ["city"], "required": true},
+    {"id": "room", "text": "Which hospital room would you pick?", "answer_type": "choice", "choices": [{"label": "Shared", "value": 3500}, {"label": "Single private", "value": 8000}, {"label": "Deluxe", "value": 12000}], "unit": "INR/day", "fills": ["room_cost_per_day"], "required": true},
+    {"id": "conditions", "text": "Does anyone have a pre-existing condition? (optional, used only in this session)", "answer_type": "flags_per_member", "fills": ["preexisting_members"], "required": false},
+    {"id": "years", "text": "How many years should we compare?", "answer_type": "value", "unit": "years", "fills": ["horizon_years"], "default": 5, "required": false}
+  ]
+}

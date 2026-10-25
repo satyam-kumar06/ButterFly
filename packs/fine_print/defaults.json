@@ -1,0 +1,18 @@
+{
+  "pack": "fine_print",
+  "note": "Used only where the spec has no value. Hospitalisation rates and costs are illustrative defaults until sourced (NSSO health survey / IRDAI data); the UI must label them so and keep them editable.",
+  "variables": {
+    "hosp_rate_multiplier": {"kind": "distribution", "dist": {"type": "triangular", "low": 0.7, "mode": 1.0, "high": 1.6}, "unit": "x", "source": "default", "source_ref": "illustrative default"},
+    "hospital_days": {"kind": "distribution", "dist": {"type": "lognormal", "mu": 1.0986, "sigma": 0.5}, "unit": "days", "source": "default", "source_ref": "illustrative default (median 3 days)"},
+    "other_charges_per_stay": {"kind": "distribution", "dist": {"type": "lognormal", "mu": 11.1563, "sigma": 0.7}, "unit": "INR", "source": "default", "source_ref": "illustrative default (median Rs 70,000 at today's prices)"},
+    "medical_inflation": {"kind": "distribution", "dist": {"type": "uniform", "low": 0.08, "high": 0.12}, "unit": "share", "source": "default", "source_ref": "illustrative default"},
+    "A.premium_increase": {"kind": "distribution", "dist": {"type": "triangular", "low": 0.05, "mode": 0.08, "high": 0.12}, "unit": "share", "source": "default", "source_ref": "illustrative default"},
+    "B.premium_increase": {"kind": "distribution", "dist": {"type": "triangular", "low": 0.05, "mode": 0.08, "high": 0.12}, "unit": "share", "source": "default", "source_ref": "illustrative default"},
+    "room_cost_per_day": {"kind": "fixed", "value": 6000, "unit": "INR/day", "source": "default", "source_ref": "illustrative default (single private room)"}
+  },
+  "rates_per_year_by_age": {
+    "source_ref": "illustrative default; to be sourced",
+    "bands": [[0, 35, 0.05], [35, 50, 0.07], [50, 60, 0.11], [60, 200, 0.16]]
+  },
+  "max_stays_per_member_per_year": 3
+}

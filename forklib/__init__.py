@@ -16,6 +16,7 @@ from forklib.finance import (
     inflate,
     salary_path,
 )
+from forklib.insurance import PolicyState, apply_policy_to_claim, eligible_amount
 from forklib.rules import (
     annual_professional_tax,
     gratuity,
@@ -28,6 +29,9 @@ from forklib.rules import (
 from forklib.sampling import dist_quantiles, sample, sample_variable, stream
 
 __all__ = [
+    "PolicyState",
+    "apply_policy_to_claim",
+    "eligible_amount",
     "annual_professional_tax",
     "clawback_due",
     "cumulative_quarterly",
