@@ -1,0 +1,48 @@
+@import "tailwindcss";
+@import "@fontsource-variable/space-grotesk";
+@import "@fontsource-variable/inter";
+@import "@fontsource-variable/jetbrains-mono";
+
+/* Design tokens from the Fork spec. "static" keeps every variable in the
+   output, so 3D code can read them later with getComputedStyle. */
+@theme static {
+  --color-void: #06060b;
+  --color-option-a: #2de2e6;
+  --color-option-b: #a970ff;
+  --color-flip: #ffb547;
+  --color-good: #4ade80;
+  --color-bad: #ff5c7a;
+  --color-ink: #ededf5;
+  --color-muted: #9a9ab0;
+
+  --font-display: "Space Grotesk Variable", system-ui, sans-serif;
+  --font-body: "Inter Variable", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, monospace;
+
+  --radius-panel: 16px;
+  --radius-control: 10px;
+
+  --ease-base: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:root {
+  --motion-fast: 180ms;
+  --motion-base: 420ms;
+  --motion-camera: 1200ms;
+}
+
+@layer base {
+  body {
+    background: var(--color-void);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+  }
+}
+
+/* Floating glass panel: use class="glass" */
+@utility glass {
+  background: rgb(255 255 255 / 0.06);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgb(255 255 255 / 0.12);
+  border-radius: var(--radius-panel);
+}

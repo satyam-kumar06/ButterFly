@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import type { ContractBundle } from './contracts';
+import './styles/index.css';
 import './styles/base.css';
 
 type Results = ContractBundle['results'];
