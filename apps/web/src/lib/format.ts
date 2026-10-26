@@ -8,3 +8,6 @@ export function formatInr(value: number): string {
 export function formatPercent(p: number): string {
   return `${(p * 100).toFixed(1)}%`;
 }
+export function formatNumber(value: number): string {
+  return Number.isInteger(value) ? value.toLocaleString('en-IN') : value.toFixed(2);
+}
