@@ -14,14 +14,16 @@ export type QuestionHint = {
 // bounds are provisional UI limits, not business rules.
 export const MOCK_QUESTIONS: InterviewQuestion[] = [
   { id: 'q_tenure', text: 'How long do you expect to stay in the job?', answer_type: 'range', variable: 'tenure_months', required: true },
-  { id: 'q_rent', text: 'What monthly rent will you pay?', answer_type: 'value', variable: 'monthly_rent', required: true },
+     { id: 'q_rent_a', text: 'What monthly rent will you pay in Option A’s city?', answer_type: 'value', variable: 'A.monthly_rent', required: true },
+   { id: 'q_rent_b', text: 'What monthly rent will you pay in Option B’s city?', answer_type: 'value', variable: 'B.monthly_rent', required: true },
   { id: 'q_tax', text: 'Which tax regime will you use?', answer_type: 'choice', variable: 'tax_regime', required: true, choices: ['new', 'old'] },
   { id: 'q_payout', text: 'What share of the target variable pay do you expect to actually receive?', answer_type: 'range', variable: 'A.variable_payout', required: false },
 ];
 
 export const QUESTION_HINTS: Record<string, QuestionHint> = {
   q_tenure: { label: 'Time in the job', unit: 'months', min: 6, max: 48, step: 1 },
-  q_rent: { label: 'Monthly rent', unit: '₹/month' },
+    q_rent_a: { label: 'Rent, Option A city', unit: '₹/month' },
+   q_rent_b: { label: 'Rent, Option B city', unit: '₹/month' },
   q_tax: { label: 'Tax regime' },
   q_payout: { label: 'Variable pay received', unit: 'of target', min: 0, max: 1, step: 0.05 },
 };
