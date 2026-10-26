@@ -8,8 +8,10 @@ export default function Forge() {
   const { events, status, restart } = useEventReplay();
   const f = useMemo(() => deriveForge(events), [events]);
 
-  const passed = f.tests.filter((t) => t.passed).length;
-  const running = f.forks.filter((k) => k.total === 0 || k.done < k.total).length;
+  const latestAttempt = Math.max(0, ...f.tests.map((t) => t.attempt));
+  const latestTests = f.tests.filter((t) => t.attempt === latestAttempt);
+  const passed = latestTests.filter((t) => t.passed).length;
+  const running = f.forks.filter((k) => k.total > 0 && k.done < k.total).length;
   const barColor = (optionId: string | null) =>
     optionId === 'A' ? 'bg-option-a' : optionId === 'B' ? 'bg-option-b' : 'bg-white/50';
 
@@ -19,7 +21,7 @@ export default function Forge() {
       <section className="mx-auto max-w-5xl px-8 pb-16">
         <p className="font-mono text-sm text-flip">MOCK replay · {status} · {events.length} events</p>
         <p className="mt-2 font-mono text-sm" aria-live="polite">
-          {f.statusText} · {passed}/{f.tests.length} tests passing · {running} forks running
+                  {f.statusText} · {passed}/{latestTests.length} tests passing · {running} forks running
         </p>
         <button type="button" onClick={restart} className="glass mt-3 px-4 py-2">Replay</button>
 
@@ -91,7 +93,7 @@ export default function Forge() {
           <p className="mt-2 font-mono text-sm text-muted">
             {Object.keys(f.llm).length === 0
               ? 'No model calls yet.'
-              : Object.entries(f.llm).map(([tier, v]) => `${tier}: ${v.calls} calls, ${v.tokens} tokens`).join(' · ')}
+              : Object.entries(f.llm).map(([tier, v]) => `${tier}: ${v.calls} ${v.calls === 1 ? 'call' : 'calls'}, ${v.tokens} tokens`).join(' · ')}
           </p>
         </div>
 
