@@ -6,19 +6,26 @@ const H = 360;
 const PAD = { l: 72, r: 16, t: 16, b: 36 };
 const SAMPLE_LINES = 40;
 
-const at = (a: number[], i: number) => a[i] ?? 0;
-
 type Props = {
   results: Results;
   selected: number;
   highlightIndex: number | null;
+  light?: boolean;
+  showMarker?: boolean;
 };
 
-export function FanChart({ results, selected, highlightIndex }: Props) {
+export function FanChart({ results, selected, highlightIndex, light = false, showMarker = true }: Props) {
   const n = results.x_points.length;
+  const colorA = light ? '#0e8a8f' : '#2de2e6';
+  const colorB = light ? '#6b2fd1' : '#a970ff';
+  const text = light ? '#555555' : '#9a9ab0';
+  const gridColor = light ? '#000000' : '#ffffff';
+  const hiColor = light ? '#111111' : '#ffffff';
+  const markerColor = light ? '#c77700' : '#ffb547';
+
   const opts = [
-    { id: 'A' as const, data: results.options.A, color: '#2de2e6', dash: undefined },
-    { id: 'B' as const, data: results.options.B, color: '#a970ff', dash: '8 5' },
+    { id: 'A' as const, data: results.options.A, color: colorA, dash: undefined },
+    { id: 'B' as const, data: results.options.B, color: colorB, dash: '8 5' },
   ];
 
   const lows = opts.map((o) => Math.min(...o.data.percentiles.p5));
@@ -37,9 +44,7 @@ export function FanChart({ results, selected, highlightIndex }: Props) {
 
   const band = (low: number[], high: number[]) => {
     const forward = high.map((v, i) => `${i === 0 ? 'M' : 'L'}${x(i).toFixed(1)},${y(v).toFixed(1)}`);
-    const back = low
-      .map((v, i) => `L${x(i).toFixed(1)},${y(v).toFixed(1)}`)
-      .reverse();
+    const back = low.map((v, i) => `L${x(i).toFixed(1)},${y(v).toFixed(1)}`).reverse();
     return `${forward.join(' ')} ${back.join(' ')} Z`;
   };
 
@@ -60,8 +65,8 @@ export function FanChart({ results, selected, highlightIndex }: Props) {
 
       {yTicks.map((t) => (
         <g key={t}>
-          <line x1={PAD.l} x2={W - PAD.r} y1={y(t)} y2={y(t)} stroke="white" strokeOpacity="0.08" />
-          <text x={PAD.l - 8} y={y(t) + 4} textAnchor="end" fontSize="11" fill="#9a9ab0">
+          <line x1={PAD.l} x2={W - PAD.r} y1={y(t)} y2={y(t)} stroke={gridColor} strokeOpacity="0.1" />
+          <text x={PAD.l - 8} y={y(t) + 4} textAnchor="end" fontSize="11" fill={text}>
             {formatInr(t)}
           </text>
         </g>
@@ -69,7 +74,7 @@ export function FanChart({ results, selected, highlightIndex }: Props) {
 
       {results.x_points.map((label, i) =>
         i % 4 === 0 ? (
-          <text key={label} x={x(i)} y={H - 10} textAnchor="middle" fontSize="11" fill="#9a9ab0">
+          <text key={label} x={x(i)} y={H - 10} textAnchor="middle" fontSize="11" fill={text}>
             {label}
           </text>
         ) : null,
@@ -90,12 +95,14 @@ export function FanChart({ results, selected, highlightIndex }: Props) {
           opts.map((o) => {
             const p = o.data.sampled_paths[highlightIndex];
             return p ? (
-              <path key={`h-${o.id}`} d={line(p)} fill="none" stroke="white" strokeWidth="2" strokeDasharray={o.dash} />
+              <path key={`h-${o.id}`} d={line(p)} fill="none" stroke={hiColor} strokeWidth="2" strokeDasharray={o.dash} />
             ) : null;
           })}
       </g>
 
-      <line x1={x(selected)} x2={x(selected)} y1={PAD.t} y2={H - PAD.b} stroke="#ffb547" strokeWidth="1.5" />
+      {showMarker && (
+        <line x1={x(selected)} x2={x(selected)} y1={PAD.t} y2={H - PAD.b} stroke={markerColor} strokeWidth="1.5" />
+      )}
     </svg>
   );
 }
