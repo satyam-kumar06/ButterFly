@@ -1,3 +1,4 @@
+import { WhatIfBar } from '../components/WhatIfBar';
 import { useEffect, useState } from 'react';
 import { ScreenStub } from '../components/ScreenStub';
 import { FanChart } from '../components/FanChart';
@@ -77,6 +78,7 @@ export default function Multiverse() {
                 {results.options.A.label}{' '}
                 <span className="text-option-a">wins</span> in {formatPercent(results.p_win.A)} of futures
               </p>
+                 <WhatIfBar parentBranchId={results.branch_id} />
               <p className="mt-2 text-muted">
                 {results.options.B.label} wins in {formatPercent(results.p_win.B)}
                 {results.p_win.tie ? `, ties in ${formatPercent(results.p_win.tie)}` : ''}.
